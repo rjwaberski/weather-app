@@ -15,7 +15,6 @@ export default class App extends Vue {}
 @import 'assets/scss/main.scss';
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -25,5 +24,7 @@ export default class App extends Vue {}
   height: 100%;
   justify-content: center;
   align-items: center;
+
+  background: rgba(0, 0, 0, 0.2);
 }
 </style>

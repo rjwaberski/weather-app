@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Main from '../views/Main.vue';
+import Main from '@/views/Main.vue';
 
 Vue.use(VueRouter);
 
@@ -11,10 +11,12 @@ const routes = [
     component: Main,
   },
   {
-    path: '/details',
+    //  check why `?` before params does not work when refreshing page
+    path: '/details/lat=:lat&lon=:lon',
     name: 'details',
+    props: true,
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Details.vue'),
+      import(/* webpackChunkName: "about" */ '@/views/Details.vue'),
   },
 ];
 

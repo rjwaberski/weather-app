@@ -2,11 +2,24 @@ import axios from 'axios';
 import Endpoints from '@/utils/endpoints';
 
 export default class WeatherService {
-  fetchWeather(coords: Coordinates) {
-    const url = Endpoints.weather.fetchByCoords(coords);
+  static fetchWeather(coords: Coordinates) {
+    const url = Endpoints.weather.fetchBaseWeather(coords);
     return axios
       .get(url)
-      .then(res => res)
-      .catch(error => console.error(error));
+      .then(res => res.data)
+      .catch(error => {
+        //  handle error
+        return null;
+      });
+  }
+
+  static fetchHourlyForecast(coords: { lat: string; lon: string }) {
+    return axios
+      .get(Endpoints.weather.fetchWeatherForecast(coords))
+      .then(res => res.data)
+      .catch(error => {
+        // handle error
+        return null;
+      });
   }
 }
