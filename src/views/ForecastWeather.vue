@@ -6,7 +6,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import WeatherService from '@/services/weatherService';
 @Component
-export default class DetailsView extends Vue {
+export default class ForecastWeather extends Vue {
   @Prop({ required: true }) private lat!: string;
   @Prop({ required: true }) private lon!: string;
 

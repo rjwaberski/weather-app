@@ -79,6 +79,7 @@ export default class LocationSelect extends Vue {
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <style lang="scss" scoped>
 @import '@/assets/scss/_variables.scss';
 
@@ -89,23 +90,17 @@ export default class LocationSelect extends Vue {
 
   &__button {
     width: $buttonWidth;
-    background: rgba(255, 255, 255, 0.5);
+    background: $transparentLight;
     color: white;
     padding: 10px 30px;
     border: 1px solid white;
     text-transform: uppercase;
     height: $buttonHeight;
-  }
 
-  &__input {
-    width: calc(100% - #{$buttonWidth} - 22px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.2);
-    height: $buttonHeight;
-    margin-right: 20px;
-    box-sizing: border-box;
-    padding: 10px 30px;
-    color: white;
+    &:disabled {
+      border: gray;
+      color: gray;
+    }
   }
 }
 

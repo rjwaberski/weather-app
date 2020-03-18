@@ -13,12 +13,13 @@ export default class Endpoints {
   private static weatherIconBase = `http://openweathermap.org`;
   private static locationBase: string = `https://maps.googleapis.com`;
 
+  //  todo: let user choose units
   static get weather() {
     return {
       fetchBaseWeather: (coords: ICoords) =>
-        `${this.weatherBase}/data/2.5/weather?lat=${coords.lat}&lon=${coords.lng}&appid=${this.openWeatherApiKey}`,
+        `${this.weatherBase}/data/2.5/weather?lat=${coords.lat}&lon=${coords.lng}&units=metric&appid=${this.openWeatherApiKey}`,
       fetchWeatherForecast: (coords: { lat: string; lon: string }) =>
-        `${this.weatherBase}/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&appid=${this.openWeatherApiKey}`,
+        `${this.weatherBase}/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&units=metric&appid=${this.openWeatherApiKey}`,
       icon: (code: string) => `${this.weatherIconBase}/img/wn/${code}@2x.png`,
     };
   }

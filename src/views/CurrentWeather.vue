@@ -39,29 +39,32 @@ import LocationSelect from '@/components/LocationSelect.vue';
     LocationSelect,
   },
 })
-export default class MainView extends Vue {
+export default class CurrentWeather extends Vue {
   private coords: ICoords | null = null;
   private weatherData: IBaseWeather | null = null;
   private geolocationLoading: boolean = false;
 
-  private async created() {
-    await this.loadLocation();
-    if (this.coords) {
-      this.fetchData(this.coords);
-    }
+  private mounted() {
+    this.loadLocation();
   }
 
   private async loadLocation() {
     this.geolocationLoading = true;
     try {
       const res = await getLocation();
-      if (!this.weatherData) {
+      debugger;
+      if (this.weatherData) {
         return;
       }
       this.coords = { lat: res.coords.latitude, lng: res.coords.longitude };
-    } catch (error) {
-      console.error(error);
+      await this.fetchData(this.coords);
 
+      this.$notify({
+        group: 'notify',
+        text: 'Geolocation data fetched',
+        type: 'success',
+      });
+    } catch (error) {
       //  todo: handle error
     } finally {
       this.geolocationLoading = false;
@@ -69,6 +72,7 @@ export default class MainView extends Vue {
   }
 
   private async fetchData(coords: ICoords) {
+    this.coords = coords;
     const data = await WeatherService.fetchWeather(coords);
     if (data) {
       this.weatherData = data;
@@ -84,8 +88,6 @@ export default class MainView extends Vue {
       ? Endpoints.weather.icon(this.weatherData.weather[0].icon)
       : null;
   }
-
-  private async onSearch(query: string) {}
 }
 </script>
 

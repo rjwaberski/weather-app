@@ -4,14 +4,31 @@
   margin-right: 20px;
 
   .multiselect__tags {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 10px 30px;
+    background: $transparentLight;
+    padding: 10px;
     border-radius: 0;
     height: $buttonHeight;
   }
 
-  .multiselect__input, .multiselect__single, .multiselect__content-wrapper {
+  .multiselect__input,
+  .multiselect__single {
     background: transparent;
     color: white;
+  }
+
+  .multiselect__single {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .multiselect__content-wrapper {
+    background: $transparentLight;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .multiselect {
+    margin-bottom: 20px;
   }
 }

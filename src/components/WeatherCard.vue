@@ -2,7 +2,7 @@
   <div class="weather-card">
     <div class="weather-card__content">
       <div class="weather-card__content--temperature">
-        {{ temp }}
+        {{ formattedTemp }}
       </div>
       <div class="weather-card__content--additional">
         <p><b>Date:</b> {{ formattedDate }}</p>
@@ -20,20 +20,21 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { IBaseWeather } from '@/interfaces/weatherData';
 import { ICoords } from '@/interfaces/locationData';
+import { RouteName } from '@/router';
 
 @Component
 export default class WeatherCard extends Vue {
   @Prop({ required: true }) private data!: IBaseWeather;
   @Prop({ required: true }) private coords!: ICoords;
 
-  private temp: string = `29*C`;
+  private temp: number = 0;
   private date: Date = new Date();
-  private location: string = 'Poznań, PL';
-  private description: string = 'sunny';
+  private location: string = '';
+  private description: string = '';
 
   private goToDetails() {
     this.$router.push({
-      name: 'details',
+      name: RouteName.ForecastWeather,
       params: {
         lat: `${this.coords.lat}`,
         lon: `${this.coords.lng}`,
@@ -45,6 +46,10 @@ export default class WeatherCard extends Vue {
     return this.date.toLocaleDateString('pl-PL');
   }
 
+  private get formattedTemp(): string {
+    return `${Math.round(this.data.main.temp)}°C`;
+  }
+
   private get defaultDesc(): string {
     const [defaultData] = this.data.weather;
     return defaultData ? defaultData.description : '-';
@@ -53,8 +58,10 @@ export default class WeatherCard extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/_variables.scss';
+
 .weather-card {
-  background: rgba(255, 255, 255, 0.2);
+  background: $transparentLight;
   color: white;
   padding: 20px;
 
@@ -77,6 +84,10 @@ export default class WeatherCard extends Vue {
 
     &--button-wrapper {
       flex-grow: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+
       button {
         background: none;
         border: none;

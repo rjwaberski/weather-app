@@ -1,22 +1,27 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Main from '@/views/Main.vue';
+import CurrentWeather from '@/views/CurrentWeather.vue';
+
+export enum RouteName {
+  CurrentWeather = 'currentWeather',
+  ForecastWeather = 'forecastWeather',
+}
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Main',
-    component: Main,
+    name: RouteName.CurrentWeather,
+    component: CurrentWeather,
   },
   {
     //  check why `?` before params does not work when refreshing page
-    path: '/details/lat=:lat&lon=:lon',
-    name: 'details',
+    path: '/forecast/lat=:lat&lon=:lon',
+    name: RouteName.ForecastWeather,
     props: true,
     component: () =>
-      import(/* webpackChunkName: "about" */ '@/views/Details.vue'),
+      import(/* webpackChunkName: "forecast" */ '@/views/ForecastWeather.vue'),
   },
 ];
 
