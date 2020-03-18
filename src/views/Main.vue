@@ -1,13 +1,23 @@
 <template>
   <div class="main">
-    <img v-if="weatherIcon" :src="weatherIcon" alt="icon" />
-    <h1>AirApp</h1>
-    <p>
-      Check the weather! Enter the city name, or
-      <b>leave empty for geolocation</b>
-    </p>
-    <location-select @fetch="fetchData" />
-    <weather-card v-if="weatherData" :data="weatherData" :coords="coords" />
+    <div class="main__container" :key="'container'">
+      <img v-if="weatherIcon" :src="weatherIcon" alt="icon" />
+      <h1>AirApp</h1>
+      <p>
+        Check the weather! Enter the city name, or
+        <b>leave empty for geolocation</b>
+      </p>
+      <location-select @fetch="fetchData" />
+    </div>
+
+    <transition name="slide-fade">
+      <weather-card
+        v-if="weatherData"
+        :data="weatherData"
+        :coords="coords"
+        :key="'weather'"
+      />
+    </transition>
   </div>
 </template>
 
@@ -43,11 +53,15 @@ export default class MainView extends Vue {
 
   private async loadLocation() {
     this.geolocationLoading = true;
-
     try {
       const res = await getLocation();
+      if (!this.weatherData) {
+        return;
+      }
       this.coords = { lat: res.coords.latitude, lng: res.coords.longitude };
     } catch (error) {
+      console.error(error);
+
       //  todo: handle error
     } finally {
       this.geolocationLoading = false;
@@ -58,6 +72,10 @@ export default class MainView extends Vue {
     const data = await WeatherService.fetchWeather(coords);
     if (data) {
       this.weatherData = data;
+    }
+
+    if (!this.coords) {
+      this.geolocationLoading = false;
     }
   }
 
@@ -72,6 +90,12 @@ export default class MainView extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/_transitions.scss';
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
 @media only screen and (max-width: 600px) {
   .main {
     max-width: 300px;

@@ -9,9 +9,9 @@ export default class Endpoints {
     return process.env.VUE_APP_GOOGLE_API_KEY;
   }
 
-  static weatherBase: string = `http://api.openweathermap.org`;
-  static weatherIconBase = `http://openweathermap.org`;
-  static locationBase: string = `https://maps.googleapis.com`;
+  private static weatherBase: string = `http://api.openweathermap.org`;
+  private static weatherIconBase = `http://openweathermap.org`;
+  private static locationBase: string = `https://maps.googleapis.com`;
 
   static get weather() {
     return {

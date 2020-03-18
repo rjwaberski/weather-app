@@ -21,23 +21,8 @@
       :show-no-results="false"
       :hide-selected="true"
       @search-change="fetchPlaces"
-    >
-      <!-- <template slot="tag" slot-scope="{ option, remove }"
-        ><span class="custom__tag"
-          ><span>{{ option.name }}</span
-          ><span class="custom__remove" @click="remove(option)">❌</span></span
-        ></template
-      >
-      <template slot="clear" slot-scope="props">
-        <div
-          class="multiselect__clear"
-          v-if="selectedCountries.length"
-          @mousedown.prevent.stop="clearAll(props.search)"
-        ></div> </template
-      ><span slot="noResult"
-        >Oops! No elements found. Consider changing the search query.</span
-      > -->
-    </multiselect>
+      @close="onBlur"
+    />
     <button
       class="location-select__button"
       @click="checkWeather"
@@ -77,6 +62,12 @@ export default class LocationSelect extends Vue {
     }
   }
 
+  private onBlur() {
+    if (!this.selected) {
+      this.options = [];
+    }
+  }
+
   @Emit('fetch')
   private checkWeather() {
     if (!this.selected) {
@@ -89,27 +80,28 @@ export default class LocationSelect extends Vue {
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss" scoped>
-$buttonWidth: 150px;
-$height: 50px;
+@import '@/assets/scss/_variables.scss';
+
 .location-select {
   margin: 20px 0;
   width: 100%;
+  display: flex;
 
   &__button {
     width: $buttonWidth;
     background: rgba(255, 255, 255, 0.5);
     color: white;
     padding: 10px 30px;
-    border: none;
+    border: 1px solid white;
     text-transform: uppercase;
-    height: $height;
+    height: $buttonHeight;
   }
 
   &__input {
     width: calc(100% - #{$buttonWidth} - 22px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.2);
-    height: $height;
+    height: $buttonHeight;
     margin-right: 20px;
     box-sizing: border-box;
     padding: 10px 30px;

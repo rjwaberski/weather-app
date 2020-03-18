@@ -5,9 +5,9 @@
         {{ temp }}
       </div>
       <div class="weather-card__content--additional">
-        <p>Date: {{ formattedDate }}</p>
-        <p>Location: {{ data.name }}</p>
-        <p>Description: {{ defaultDesc }}</p>
+        <p><b>Date:</b> {{ formattedDate }}</p>
+        <p><b>Location:</b> {{ data.name }}</p>
+        <p><b>Description:</b> {{ defaultDesc }}</p>
       </div>
       <div class="weather-card__content--button-wrapper">
         <button @click="goToDetails">More</button>

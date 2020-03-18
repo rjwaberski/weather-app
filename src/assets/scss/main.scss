@@ -1,3 +1,6 @@
+@import './variables';
+@import './multiselect';
+
 body {
   margin: 0;
   padding: 0;
@@ -7,5 +10,20 @@ body {
   overflow: hidden;
   color: white;
 
-  font-family: 'Montserrat', sans-serif;
+  // font-family: 'Montserrat', sans-serif;
+  font-family: sans-serif;
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  // color: #2c3e50;
+
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.2);
 }

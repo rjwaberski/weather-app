@@ -1,0 +1,17 @@
+// override default multiselect styles
+.multiselect {
+  width: calc(100% - #{$buttonWidth} - 22px);
+  margin-right: 20px;
+
+  .multiselect__tags {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 30px;
+    border-radius: 0;
+    height: $buttonHeight;
+  }
+
+  .multiselect__input, .multiselect__single, .multiselect__content-wrapper {
+    background: transparent;
+    color: white;
+  }
+}
