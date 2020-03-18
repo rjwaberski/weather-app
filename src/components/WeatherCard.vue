@@ -19,11 +19,12 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { IBaseWeather } from '@/interfaces/weatherData';
+import { ICoords } from '@/interfaces/locationData';
 
 @Component
 export default class WeatherCard extends Vue {
   @Prop({ required: true }) private data!: IBaseWeather;
-  @Prop({ required: true }) private coords!: Coordinates;
+  @Prop({ required: true }) private coords!: ICoords;
 
   private temp: string = `29*C`;
   private date: Date = new Date();
@@ -34,8 +35,8 @@ export default class WeatherCard extends Vue {
     this.$router.push({
       name: 'details',
       params: {
-        lat: `${this.coords.latitude}`,
-        lon: `${this.coords.longitude}`,
+        lat: `${this.coords.lat}`,
+        lon: `${this.coords.lng}`,
       },
     });
   }

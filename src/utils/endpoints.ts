@@ -1,23 +1,32 @@
+import { ICoords } from '@/interfaces/locationData';
+
 export default class Endpoints {
   static get openWeatherApiKey() {
     return process.env.VUE_APP_OPEN_WEATHER_API_KEY;
   }
 
-  static get base() {
-    return `http://api.openweathermap.org/`;
+  static get googleApiKey() {
+    return process.env.VUE_APP_GOOGLE_API_KEY;
   }
 
-  static get iconBase() {
-    return `http://openweathermap.org`;
-  }
+  static weatherBase: string = `http://api.openweathermap.org`;
+  static weatherIconBase = `http://openweathermap.org`;
+  static locationBase: string = `https://maps.googleapis.com`;
 
   static get weather() {
     return {
-      fetchBaseWeather: (coords: Coordinates) =>
-        `${this.base}/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${this.openWeatherApiKey}`,
+      fetchBaseWeather: (coords: ICoords) =>
+        `${this.weatherBase}/data/2.5/weather?lat=${coords.lat}&lon=${coords.lng}&appid=${this.openWeatherApiKey}`,
       fetchWeatherForecast: (coords: { lat: string; lon: string }) =>
-        `${this.base}/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&appid=${this.openWeatherApiKey}`,
-      icon: (code: string) => `${this.iconBase}/img/wn/${code}@2x.png`,
+        `${this.weatherBase}/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&appid=${this.openWeatherApiKey}`,
+      icon: (code: string) => `${this.weatherIconBase}/img/wn/${code}@2x.png`,
+    };
+  }
+
+  static get location() {
+    return {
+      geocode: (query: string) =>
+        `${this.locationBase}/maps/api/geocode/json?address=${query}&key=${this.googleApiKey}`,
     };
   }
 }

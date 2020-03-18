@@ -6,7 +6,7 @@
       Check the weather! Enter the city name, or
       <b>leave empty for geolocation</b>
     </p>
-    <location-select @search="onSearch" />
+    <location-select @fetch="fetchData" />
     <weather-card v-if="weatherData" :data="weatherData" :coords="coords" />
   </div>
 </template>
@@ -15,10 +15,11 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { getLocation } from '@/utils/geolocation';
 import { IBaseWeather } from '@/interfaces/weatherData';
+import { ICoords } from '@/interfaces/locationData';
 
 import WeatherService from '@/services/weatherService';
+import LocationService from '@/services/locationService';
 import Endpoints from '@/utils/endpoints';
-
 import WeatherCard from '@/components/WeatherCard.vue';
 import LocationSelect from '@/components/LocationSelect.vue';
 
@@ -29,7 +30,7 @@ import LocationSelect from '@/components/LocationSelect.vue';
   },
 })
 export default class MainView extends Vue {
-  private coords: Coordinates | null = null;
+  private coords: ICoords | null = null;
   private weatherData: IBaseWeather | null = null;
   private geolocationLoading: boolean = false;
 
@@ -45,7 +46,7 @@ export default class MainView extends Vue {
 
     try {
       const res = await getLocation();
-      this.coords = res.coords;
+      this.coords = { lat: res.coords.latitude, lng: res.coords.longitude };
     } catch (error) {
       //  todo: handle error
     } finally {
@@ -53,7 +54,7 @@ export default class MainView extends Vue {
     }
   }
 
-  private async fetchData(coords: Coordinates) {
+  private async fetchData(coords: ICoords) {
     const data = await WeatherService.fetchWeather(coords);
     if (data) {
       this.weatherData = data;
@@ -66,7 +67,7 @@ export default class MainView extends Vue {
       : null;
   }
 
-  private onSearch() {}
+  private async onSearch(query: string) {}
 }
 </script>
 

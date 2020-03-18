@@ -1,8 +1,9 @@
 import axios from 'axios';
 import Endpoints from '@/utils/endpoints';
+import { ICoords } from '@/interfaces/locationData';
 
 export default class WeatherService {
-  static fetchWeather(coords: Coordinates) {
+  static fetchWeather(coords: ICoords) {
     const url = Endpoints.weather.fetchBaseWeather(coords);
     return axios
       .get(url)
