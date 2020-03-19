@@ -29,7 +29,7 @@ import UiMixin from '@/mixins/ui';
 
 import WeatherService from '@/services/weatherService';
 import LocationService from '@/services/locationService';
-import Endpoints from '@/utils/endpoints';
+import Endpoints from '@/services/endpoints';
 import WeatherCard from '@/components/WeatherCard.vue';
 import LocationSelect from '@/components/LocationSelect.vue';
 
@@ -46,9 +46,7 @@ export default class CurrentWeather extends Mixins(UiMixin) {
   private weatherData: IBaseWeather | null = null;
   private geolocationLoading: boolean = false;
 
-  @weather.Action private fetchWeather!: (
-    coords: ICoords,
-  ) => Promise<any>;
+  @weather.Action private fetchWeather!: (coords: ICoords) => Promise<any>;
 
   private mounted() {
     this.loadLocation();

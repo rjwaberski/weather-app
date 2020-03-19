@@ -24,6 +24,7 @@
       @close="onBlur"
     />
     <button
+      v-if="this.selected"
       class="location-select__button"
       @click="checkWeather"
       :disabled="!this.selected"
@@ -106,6 +107,7 @@ export default class LocationSelect extends Mixins(UiMixin) {
     border: 1px solid white;
     text-transform: uppercase;
     height: $buttonHeight;
+    margin-left: $buttonLeftMargin;
 
     &:disabled {
       border: gray;
@@ -126,6 +128,7 @@ export default class LocationSelect extends Mixins(UiMixin) {
 
     &__button {
       width: 100%;
+      margin-left: 0;
     }
   }
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Endpoints from '@/utils/endpoints';
+import Endpoints from '@/services/endpoints';
 import { ICoords } from '@/interfaces/locationData';
 
 export default class WeatherService {

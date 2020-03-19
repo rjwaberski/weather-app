@@ -1,4 +1,4 @@
-import Endpoints from '@/utils/endpoints';
+import Endpoints from '@/services/endpoints';
 import axios from 'axios';
 
 export default class LocationService {
