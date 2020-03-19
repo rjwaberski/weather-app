@@ -18,17 +18,17 @@ export default class WeatherModule extends VuexModule {
     : null;
 
   @Mutation
-  setData(data: IBaseWeather) {
+  private setData(data: IBaseWeather) {
     localStorage.setItem(WEATHER_KEY, JSON.stringify(data));
     this.weather = data;
   }
 
   @Action
-  async fetchWeather(coords: ICoords) {
+  private async fetchWeather(coords: ICoords) {
     const res = await WeatherService.fetchWeather(coords);
     if (res.status === 200) {
       this.context.commit(
-        nameof<WeatherModule>(x => x.setData),
+        nameof<WeatherModule>((x) => x.setData),
         res.data,
       );
     }

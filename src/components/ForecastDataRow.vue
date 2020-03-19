@@ -17,7 +17,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { IBaseForecast } from '@/interfaces/weatherData';
 import { formatTemperature, formatHour } from '@/utils/displayValuesFormatting';
 @Component
-export default class name extends Vue {
+export default class ForecastDataRow extends Vue {
   @Prop({ required: true }) private data!: IBaseForecast;
 
   private get formattedHour(): string {
