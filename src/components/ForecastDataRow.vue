@@ -39,14 +39,13 @@ export default class name extends Vue {
 @import '@/assets/scss/_variables.scss';
 
 $gap: 10px;
-$columnWidth: 100% / 3;
 .forecast-data-row {
   display: grid;
-  grid-template-columns: repeat(3, $columnWidth);
-  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: $gap;
+  margin-bottom: $gap;
 
   div {
-    margin-bottom: 10px;
     display: flex;
     justify-content: center;
     align-items: center;

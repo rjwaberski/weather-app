@@ -1,13 +1,13 @@
 <template>
-  <div class="weather-card" :class="{ extended }">
+  <div class="weather-card" :class="{ condensed: !extended }">
     <div class="weather-card__content">
-      <div class="weather-card__content--temperature">
+      <div class="weather-card__content--temperature" v-if="extended">
         {{ formattedTemp }}
       </div>
       <div class="weather-card__content--additional">
         <p><b>Date:</b> {{ formattedDate }}</p>
         <p><b>Location:</b> {{ location }}</p>
-        <p><b>Description:</b> {{ description }}</p>
+        <p v-if="extended"><b>Description:</b> {{ description }}</p>
       </div>
       <div v-if="coords" class="weather-card__content--button-wrapper">
         <button @click="goToDetails">More</button>
@@ -53,7 +53,7 @@ export default class WeatherCard extends Vue {
   }
 
   private get formattedTemp(): string {
-    return formatTemperature(this.temp)
+    return formatTemperature(this.temp);
   }
 }
 </script>
@@ -99,6 +99,18 @@ export default class WeatherCard extends Vue {
         &:hover {
           cursor: pointer;
         }
+      }
+    }
+  }
+
+  &.condensed {
+    .weather-card__content--additional {
+      display: flex;
+      flex-direction: row;
+
+      p {
+        flex-grow: 1;
+        text-align: center;
       }
     }
   }

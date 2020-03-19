@@ -1,10 +1,7 @@
 <template>
   <div class="current-weather">
     <div class="current-weather__search">
-      <transition name="slide-fade">
-        <img v-if="weatherIcon" :src="weatherIcon" alt="icon" />
-      </transition>
-      <h1>AirApp</h1>
+      <app-logo :center="true" />
       <p>
         Check the weather! Enter the city name, or
         <b>leave empty for geolocation</b>
@@ -29,9 +26,10 @@ import UiMixin from '@/mixins/ui';
 
 import WeatherService from '@/services/weatherService';
 import LocationService from '@/services/locationService';
-import Endpoints from '@/services/endpoints';
 import WeatherCard from '@/components/WeatherCard.vue';
 import LocationSelect from '@/components/LocationSelect.vue';
+import AppLogo from '@/components/AppLogo.vue';
+import { AxiosResponse } from 'axios';
 
 const weather = namespace('weather');
 
@@ -39,6 +37,7 @@ const weather = namespace('weather');
   components: {
     WeatherCard,
     LocationSelect,
+    AppLogo,
   },
 })
 export default class CurrentWeather extends Mixins(UiMixin) {
@@ -46,7 +45,8 @@ export default class CurrentWeather extends Mixins(UiMixin) {
   private weatherData: IBaseWeather | null = null;
   private geolocationLoading: boolean = false;
 
-  @weather.Action private fetchWeather!: (coords: ICoords) => Promise<any>;
+  @weather.Action private fetchWeather!: (coords: ICoords) => AxiosResponse;
+  @weather.Getter private iconSrc!: string;
 
   private mounted() {
     this.loadLocation();
@@ -73,7 +73,7 @@ export default class CurrentWeather extends Mixins(UiMixin) {
     const res = await this.fetchWeather(coords);
 
     if (!res.status) {
-      this.showErrorSnack(res);
+      this.showErrorSnack('Geolocation error');
     }
 
     if (res.status === 200) {
@@ -83,12 +83,6 @@ export default class CurrentWeather extends Mixins(UiMixin) {
     if (!this.coords) {
       this.geolocationLoading = false;
     }
-  }
-
-  private get weatherIcon() {
-    return this.weatherData
-      ? Endpoints.weather.icon(this.weatherData.weather[0].icon)
-      : null;
   }
 
   private get weatherCardData(): IWeatherCardData | null {

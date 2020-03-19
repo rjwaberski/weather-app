@@ -3,6 +3,7 @@ import WeatherService from '@/services/weatherService';
 import { ICoords } from '@/interfaces/locationData';
 import { nameof } from 'ts-simple-nameof';
 import { IBaseWeather } from '@/interfaces/weatherData';
+import Endpoints from '@/services/endpoints';
 
 const WEATHER_KEY = 'weather';
 
@@ -53,5 +54,11 @@ export default class WeatherModule extends VuexModule {
 
   get description(): string {
     return this.weather ? this.weather.weather[0].description : '';
+  }
+
+  get iconSrc(): string {
+    return this.weather
+      ? Endpoints.weather.icon(this.weather.weather[0].icon)
+      : '';
   }
 }

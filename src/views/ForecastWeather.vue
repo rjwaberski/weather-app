@@ -1,5 +1,7 @@
 <template>
   <div class="forecast-weather" v-if="forecastWeatherData.length">
+    <app-logo />
+
     <div class="forecast-weather__main">
       <weather-card :extended="false" />
     </div>
@@ -26,6 +28,7 @@ import UiMixin from '@/mixins/ui';
 
 import WeatherCard from '@/components/WeatherCard.vue';
 import ForecastDataRow from '@/components/ForecastDataRow.vue';
+import AppLogo from '@/components/AppLogo.vue';
 
 import WeatherService from '@/services/weatherService';
 
@@ -33,6 +36,7 @@ import WeatherService from '@/services/weatherService';
   components: {
     WeatherCard,
     ForecastDataRow,
+    AppLogo,
   },
 })
 export default class ForecastWeather extends Mixins(UiMixin) {

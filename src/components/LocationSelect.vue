@@ -109,6 +109,10 @@ export default class LocationSelect extends Mixins(UiMixin) {
     height: $buttonHeight;
     margin-left: $buttonLeftMargin;
 
+    &:hover {
+      cursor: pointer;
+    }
+
     &:disabled {
       border: gray;
       color: gray;
