@@ -25,6 +25,10 @@
   .multiselect__content-wrapper {
     background: $transparentLight;
   }
+
+  .multiselect__input::placeholder, .multiselect__placeholder {
+    color: white;
+  }
 }
 
 @media only screen and (max-width: 600px) {

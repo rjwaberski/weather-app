@@ -34,18 +34,21 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
+import { Vue, Component, Prop, Emit, Mixins } from 'vue-property-decorator';
+import { ILocation } from '@/interfaces/locationData';
+
+import UiMixin from '@/mixins/ui';
+
 import LocationService from '@/services/locationService';
 import Debounce from '@/utils/debounce';
 import Multiselect from 'vue-multiselect';
-import { ILocation } from '@/interfaces/locationData';
 
 @Component({
   components: {
     Multiselect,
   },
 })
-export default class LocationSelect extends Vue {
+export default class LocationSelect extends Mixins(UiMixin) {
   private selected: ILocation | null = null;
   private options: ILocation[] = [];
   private loading: boolean = false;
@@ -57,8 +60,14 @@ export default class LocationSelect extends Vue {
     }
     const res = await LocationService.fetchLocation(query);
 
-    if (res && res.length) {
-      this.options = res;
+    if (!res.status) {
+      this.showErrorSnack(res);
+    }
+
+    if (res.status === 200) {
+      this.options = res.data.results;
+    } else {
+      //  todo: handle googleapi error
     }
   }
 

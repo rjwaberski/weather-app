@@ -22,10 +22,12 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
 import { getLocation } from '@/utils/geolocation';
 import { IBaseWeather } from '@/interfaces/weatherData';
 import { ICoords } from '@/interfaces/locationData';
+
+import UiMixin from '@/mixins/ui';
 
 import WeatherService from '@/services/weatherService';
 import LocationService from '@/services/locationService';
@@ -39,7 +41,7 @@ import LocationSelect from '@/components/LocationSelect.vue';
     LocationSelect,
   },
 })
-export default class CurrentWeather extends Vue {
+export default class CurrentWeather extends Mixins(UiMixin) {
   private coords: ICoords | null = null;
   private weatherData: IBaseWeather | null = null;
   private geolocationLoading: boolean = false;
@@ -52,20 +54,13 @@ export default class CurrentWeather extends Vue {
     this.geolocationLoading = true;
     try {
       const res = await getLocation();
-      debugger;
       if (this.weatherData) {
         return;
       }
       this.coords = { lat: res.coords.latitude, lng: res.coords.longitude };
       await this.fetchData(this.coords);
-
-      this.$notify({
-        group: 'notify',
-        text: 'Geolocation data fetched',
-        type: 'success',
-      });
     } catch (error) {
-      //  todo: handle error
+      this.showErrorSnack(error.message);
     } finally {
       this.geolocationLoading = false;
     }
