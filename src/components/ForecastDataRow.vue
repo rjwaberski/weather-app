@@ -20,7 +20,7 @@ import { formatTemperature, formatHour } from '@/utils/displayValuesFormatting';
 export default class name extends Vue {
   @Prop({ required: true }) private data!: IBaseForecast;
 
-  private get formattedHour() {
+  private get formattedHour(): string {
     return formatHour(this.data.dt * 1000);
   }
 

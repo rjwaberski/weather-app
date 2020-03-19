@@ -5,7 +5,7 @@
 - [x] Move current weather data to store
 - [x] Fetch forecast weather data
 - [x] Display forecast weather data
-- [ ] Unit test
+- [ ] Write some more unit tests
 
 ## Project setup
 

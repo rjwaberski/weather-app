@@ -1,6 +1,5 @@
 <template>
   <div class="location-select">
-    <!-- <input class="location-select__input" type="text" v-model="query" /> -->
     <multiselect
       v-model="selected"
       id="ajax"
@@ -67,6 +66,7 @@ export default class LocationSelect extends Mixins(UiMixin) {
     }
 
     if (res.status === 200) {
+      debugger
       this.options = res.data.results;
     } else {
       //  todo: handle googleapi error
