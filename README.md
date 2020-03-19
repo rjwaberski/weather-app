@@ -1,10 +1,11 @@
 # weather-app
 
-# TODO
+### TODO
 
-1. Move current weather data to store
-2. Fetch forecast weather data
-3. Display forecast weather data
+- [x] Move current weather data to store
+- [x] Fetch forecast weather data
+- [x] Display forecast weather data
+- [ ] Unit test
 
 ## Project setup
 
