@@ -17,7 +17,7 @@ const routes = [
   },
   {
     //  check why `?` before params does not work when refreshing page
-    path: '/forecast/lat=:lat&lon=:lon',
+    path: '/forecast/lat=:lat&lng=:lng',
     name: RouteName.ForecastWeather,
     props: true,
     component: () =>

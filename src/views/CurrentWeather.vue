@@ -1,7 +1,9 @@
 <template>
-  <div class="main">
-    <div class="main__container" :key="'container'">
-      <img v-if="weatherIcon" :src="weatherIcon" alt="icon" />
+  <div class="current-weather">
+    <div class="current-weather__search" :key="'container'">
+      <transition name="slide-fade">
+        <img v-if="weatherIcon" :src="weatherIcon" alt="icon" />
+      </transition>
       <h1>AirApp</h1>
       <p>
         Check the weather! Enter the city name, or
@@ -13,7 +15,7 @@
     <transition name="slide-fade">
       <weather-card
         v-if="weatherData"
-        :data="weatherData"
+        :data="weatherCardData"
         :coords="coords"
         :key="'weather'"
       />
@@ -24,7 +26,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
 import { getLocation } from '@/utils/geolocation';
-import { IBaseWeather } from '@/interfaces/weatherData';
+import { IBaseWeather, IWeatherCardData } from '@/interfaces/weatherData';
 import { ICoords } from '@/interfaces/locationData';
 
 import UiMixin from '@/mixins/ui';
@@ -68,9 +70,14 @@ export default class CurrentWeather extends Mixins(UiMixin) {
 
   private async fetchData(coords: ICoords) {
     this.coords = coords;
-    const data = await WeatherService.fetchWeather(coords);
-    if (data) {
-      this.weatherData = data;
+    const res = await WeatherService.fetchWeather(coords);
+
+    if (!res.status) {
+      this.showErrorSnack(res);
+    }
+
+    if (res.status === 200) {
+      this.weatherData = res.data;
     }
 
     if (!this.coords) {
@@ -83,19 +90,21 @@ export default class CurrentWeather extends Mixins(UiMixin) {
       ? Endpoints.weather.icon(this.weatherData.weather[0].icon)
       : null;
   }
-}
-</script>
 
-<style lang="scss" scoped>
-@import '@/assets/scss/_transitions.scss';
+  private get weatherCardData(): IWeatherCardData | null {
+    if (!this.weatherData) {
+      return null;
+    }
 
-.main {
-  display: flex;
-  flex-direction: column;
-}
-@media only screen and (max-width: 600px) {
-  .main {
-    max-width: 300px;
+    const { temp } = this.weatherData.main;
+    const { name: location } = this.weatherData;
+    const { description } = this.weatherData.weather[0];
+
+    return {
+      temp,
+      location,
+      description,
+    };
   }
 }
-</style>
+</script>

@@ -28,3 +28,17 @@ body {
 
   background: $transparentDark;
 }
+
+.container {
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    max-width: 300px;
+  }
+}

@@ -1,15 +1,15 @@
 <template>
-  <div class="weather-card">
+  <div class="weather-card" :class="{ extended }">
     <div class="weather-card__content">
       <div class="weather-card__content--temperature">
         {{ formattedTemp }}
       </div>
       <div class="weather-card__content--additional">
         <p><b>Date:</b> {{ formattedDate }}</p>
-        <p><b>Location:</b> {{ data.name }}</p>
-        <p><b>Description:</b> {{ defaultDesc }}</p>
+        <p><b>Location:</b> {{ data.location }}</p>
+        <p><b>Description:</b> {{ data.description }}</p>
       </div>
-      <div class="weather-card__content--button-wrapper">
+      <div v-if="coords" class="weather-card__content--button-wrapper">
         <button @click="goToDetails">More</button>
       </div>
     </div>
@@ -18,14 +18,15 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { IBaseWeather } from '@/interfaces/weatherData';
+import { IWeatherCardData } from '@/interfaces/weatherData';
 import { ICoords } from '@/interfaces/locationData';
 import { RouteName } from '@/router';
 
 @Component
 export default class WeatherCard extends Vue {
-  @Prop({ required: true }) private data!: IBaseWeather;
-  @Prop({ required: true }) private coords!: ICoords;
+  @Prop({ required: true }) private data!: IWeatherCardData;
+  @Prop({ required: false }) private coords!: ICoords;
+  @Prop({ required: false, default: true }) private extended!: boolean;
 
   private temp: number = 0;
   private date: Date = new Date();
@@ -37,7 +38,7 @@ export default class WeatherCard extends Vue {
       name: RouteName.ForecastWeather,
       params: {
         lat: `${this.coords.lat}`,
-        lon: `${this.coords.lng}`,
+        lng: `${this.coords.lng}`,
       },
     });
   }
@@ -47,12 +48,7 @@ export default class WeatherCard extends Vue {
   }
 
   private get formattedTemp(): string {
-    return `${Math.round(this.data.main.temp)}°C`;
-  }
-
-  private get defaultDesc(): string {
-    const [defaultData] = this.data.weather;
-    return defaultData ? defaultData.description : '-';
+    return `${Math.round(this.data.temp)}°C`;
   }
 }
 </script>

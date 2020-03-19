@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="slide-fade" mode="out-in">
-      <router-view />
+      <router-view class="container"/>
     </transition>
     <notifications group="notify" />
   </div>

@@ -18,8 +18,8 @@ export default class Endpoints {
     return {
       fetchBaseWeather: (coords: ICoords) =>
         `${this.weatherBase}/data/2.5/weather?lat=${coords.lat}&lon=${coords.lng}&units=metric&appid=${this.openWeatherApiKey}`,
-      fetchWeatherForecast: (coords: { lat: string; lon: string }) =>
-        `${this.weatherBase}/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&units=metric&appid=${this.openWeatherApiKey}`,
+      fetchWeatherForecast: (coords: ICoords, count: number = 6) =>
+        `${this.weatherBase}/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lng}&units=metric&cnt=${count}&appid=${this.openWeatherApiKey}`,
       icon: (code: string) => `${this.weatherIconBase}/img/wn/${code}@2x.png`,
     };
   }

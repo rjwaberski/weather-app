@@ -7,20 +7,14 @@ export default class WeatherService {
     const url = Endpoints.weather.fetchBaseWeather(coords);
     return axios
       .get(url)
-      .then(res => res.data)
-      .catch(error => {
-        //  handle error
-        return null;
-      });
+      .then(res => res)
+      .catch(error => error);
   }
 
-  public static fetchHourlyForecast(coords: { lat: string; lon: string }) {
+  public static fetchHourlyForecast(coords: ICoords) {
     return axios
       .get(Endpoints.weather.fetchWeatherForecast(coords))
-      .then(res => res.data)
-      .catch(error => {
-        // handle error
-        return null;
-      });
+      .then(res => res)
+      .catch(error => error);
   }
 }

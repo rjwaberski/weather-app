@@ -62,6 +62,7 @@ export default class LocationSelect extends Mixins(UiMixin) {
 
     if (!res.status) {
       this.showErrorSnack(res);
+      return;
     }
 
     if (res.status === 200) {
