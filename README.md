@@ -6,6 +6,7 @@
 - [x] Fetch forecast weather data
 - [x] Display forecast weather data
 - [ ] Write some more unit tests
+- [ ] Map api responses to objects to separate views from services
 
 ## Project setup
 
