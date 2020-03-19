@@ -66,7 +66,6 @@ export default class LocationSelect extends Mixins(UiMixin) {
     }
 
     if (res.status === 200) {
-      debugger
       this.options = res.data.results;
     } else {
       //  todo: handle googleapi error
