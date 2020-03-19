@@ -15,16 +15,17 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { IBaseForecast } from '@/interfaces/weatherData';
+import { formatTemperature, formatHour } from '@/utils/displayValuesFormatting';
 @Component
 export default class name extends Vue {
   @Prop({ required: true }) private data!: IBaseForecast;
 
   private get formattedHour() {
-    return new Date(this.data.dt * 1000).toLocaleTimeString('pl-PL');
+    return formatHour(this.data.dt * 1000);
   }
 
   private get formattedTemp(): string {
-    return `${Math.round(this.data.main.temp)}°C`;
+    return formatTemperature(this.data.main.temp);
   }
 
   private get desc(): string {

@@ -1,7 +1,7 @@
 <template>
   <div class="forecast-weather" v-if="forecastWeatherData.length">
     <div class="forecast-weather__main">
-      <weather-card :data="weatherCardData" :extended="false" />
+      <weather-card :extended="false" />
     </div>
     <div class="forecast-weather__details">
       <div class="forecast-weather__details__headers">

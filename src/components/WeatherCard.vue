@@ -6,8 +6,8 @@
       </div>
       <div class="weather-card__content--additional">
         <p><b>Date:</b> {{ formattedDate }}</p>
-        <p><b>Location:</b> {{ data.location }}</p>
-        <p><b>Description:</b> {{ data.description }}</p>
+        <p><b>Location:</b> {{ location }}</p>
+        <p><b>Description:</b> {{ description }}</p>
       </div>
       <div v-if="coords" class="weather-card__content--button-wrapper">
         <button @click="goToDetails">More</button>
@@ -21,17 +21,22 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { IWeatherCardData } from '@/interfaces/weatherData';
 import { ICoords } from '@/interfaces/locationData';
 import { RouteName } from '@/router';
+import { namespace } from 'vuex-class';
+import { formatDate, formatTemperature } from '@/utils/displayValuesFormatting';
+
+const weather = namespace('weather');
 
 @Component
 export default class WeatherCard extends Vue {
-  @Prop({ required: true }) private data!: IWeatherCardData;
   @Prop({ required: false }) private coords!: ICoords;
   @Prop({ required: false, default: true }) private extended!: boolean;
 
-  private temp: number = 0;
+  @weather.Getter private isDataComplete!: boolean;
+  @weather.Getter private location!: string;
+  @weather.Getter private temp!: number;
+  @weather.Getter private description!: string;
+
   private date: Date = new Date();
-  private location: string = '';
-  private description: string = '';
 
   private goToDetails() {
     this.$router.push({
@@ -44,11 +49,11 @@ export default class WeatherCard extends Vue {
   }
 
   private get formattedDate(): string {
-    return this.date.toLocaleDateString('pl-PL');
+    return formatDate(this.date);
   }
 
   private get formattedTemp(): string {
-    return `${Math.round(this.data.temp)}°C`;
+    return formatTemperature(this.temp)
   }
 }
 </script>

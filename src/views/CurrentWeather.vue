@@ -1,6 +1,6 @@
 <template>
   <div class="current-weather">
-    <div class="current-weather__search" :key="'container'">
+    <div class="current-weather__search">
       <transition name="slide-fade">
         <img v-if="weatherIcon" :src="weatherIcon" alt="icon" />
       </transition>
@@ -13,12 +13,7 @@
     </div>
 
     <transition name="slide-fade">
-      <weather-card
-        v-if="weatherData"
-        :data="weatherCardData"
-        :coords="coords"
-        :key="'weather'"
-      />
+      <weather-card v-if="weatherData" :coords="coords" />
     </transition>
   </div>
 </template>
@@ -28,6 +23,7 @@ import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
 import { getLocation } from '@/utils/geolocation';
 import { IBaseWeather, IWeatherCardData } from '@/interfaces/weatherData';
 import { ICoords } from '@/interfaces/locationData';
+import { namespace } from 'vuex-class';
 
 import UiMixin from '@/mixins/ui';
 
@@ -36,6 +32,8 @@ import LocationService from '@/services/locationService';
 import Endpoints from '@/utils/endpoints';
 import WeatherCard from '@/components/WeatherCard.vue';
 import LocationSelect from '@/components/LocationSelect.vue';
+
+const weather = namespace('weather');
 
 @Component({
   components: {
@@ -47,6 +45,10 @@ export default class CurrentWeather extends Mixins(UiMixin) {
   private coords: ICoords | null = null;
   private weatherData: IBaseWeather | null = null;
   private geolocationLoading: boolean = false;
+
+  @weather.Action private fetchWeather!: (
+    coords: ICoords,
+  ) => Promise<any>;
 
   private mounted() {
     this.loadLocation();
@@ -70,7 +72,7 @@ export default class CurrentWeather extends Mixins(UiMixin) {
 
   private async fetchData(coords: ICoords) {
     this.coords = coords;
-    const res = await WeatherService.fetchWeather(coords);
+    const res = await this.fetchWeather(coords);
 
     if (!res.status) {
       this.showErrorSnack(res);

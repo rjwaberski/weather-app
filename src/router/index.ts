@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+import VueRouter, { Route } from 'vue-router';
 import CurrentWeather from '@/views/CurrentWeather.vue';
 
 export enum RouteName {
@@ -20,8 +20,16 @@ const routes = [
     path: '/forecast/lat=:lat&lng=:lng',
     name: RouteName.ForecastWeather,
     props: true,
+    beforeEnter: (to: Route, from: Route, next: () => void) => {
+      //  todo: validate to.params
+      next();
+    },
     component: () =>
       import(/* webpackChunkName: "forecast" */ '@/views/ForecastWeather.vue'),
+  },
+  {
+    path: '*',
+    redirect: { name: RouteName.CurrentWeather },
   },
 ];
 
