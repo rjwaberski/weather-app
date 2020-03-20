@@ -1,6 +1,9 @@
 <template>
   <div class="weather-card" :class="{ condensed: !extended }">
-    <div class="weather-card__content">
+    <transition name="slide-fade" mode="out-in">
+      <preloader v-if="loading" />
+    </transition>
+    <div class="weather-card__content" :class="loading">
       <div class="weather-card__content--temperature" v-if="extended">
         {{ formattedTemp }}
       </div>
@@ -24,12 +27,19 @@ import { RouteName } from '@/router';
 import { namespace } from 'vuex-class';
 import { formatDate, formatTemperature } from '@/utils/displayValuesFormatting';
 
+import Preloader from '@/components/Preloader.vue';
+
 const weather = namespace('weather');
 
-@Component
+@Component({
+  components: {
+    Preloader,
+  },
+})
 export default class WeatherCard extends Vue {
   @Prop({ required: false }) private coords!: ICoords;
   @Prop({ required: false, default: true }) private extended!: boolean;
+  @Prop({ required: false, default: false }) private loading!: boolean;
 
   @weather.Getter private isDataComplete!: boolean;
   @weather.Getter private location!: string;
@@ -64,10 +74,11 @@ export default class WeatherCard extends Vue {
 .weather-card {
   background: $transparentLight;
   color: white;
-  padding: 20px;
+  position: relative;
 
   &__content {
     display: flex;
+    padding: 20px;
 
     &--temperature {
       flex-grow: 2;

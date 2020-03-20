@@ -9,8 +9,12 @@
       <location-select @fetch="fetchData" />
     </div>
 
-    <transition name="slide-fade">
-      <weather-card v-if="weatherData" :coords="coords" />
+    <transition name="slide-fade" mode="out-in">
+      <weather-card
+        v-if="weatherData"
+        :coords="coords"
+        :loading="geolocationLoading || weatherLoading"
+      />
     </transition>
   </div>
 </template>
@@ -21,6 +25,7 @@ import { getLocation } from '@/utils/geolocation';
 import { IBaseWeather, IWeatherCardData } from '@/interfaces/weatherData';
 import { ICoords } from '@/interfaces/locationData';
 import { namespace } from 'vuex-class';
+import { AxiosResponse } from 'axios';
 
 import UiMixin from '@/mixins/ui';
 
@@ -29,7 +34,6 @@ import LocationService from '@/services/locationService';
 import WeatherCard from '@/components/WeatherCard.vue';
 import LocationSelect from '@/components/LocationSelect.vue';
 import AppLogo from '@/components/AppLogo.vue';
-import { AxiosResponse } from 'axios';
 
 const weather = namespace('weather');
 
@@ -43,7 +47,9 @@ const weather = namespace('weather');
 export default class CurrentWeather extends Mixins(UiMixin) {
   private coords: ICoords | null = null;
   private weatherData: IBaseWeather | null = null;
+
   private geolocationLoading: boolean = false;
+  private weatherLoading: boolean = false;
 
   @weather.Action private fetchWeather!: (coords: ICoords) => AxiosResponse;
   @weather.Getter private iconSrc!: string;
@@ -69,6 +75,7 @@ export default class CurrentWeather extends Mixins(UiMixin) {
   }
 
   private async fetchData(coords: ICoords) {
+    this.weatherLoading = true;
     this.coords = coords;
     const res = await this.fetchWeather(coords);
 
@@ -83,6 +90,7 @@ export default class CurrentWeather extends Mixins(UiMixin) {
     if (!this.coords) {
       this.geolocationLoading = false;
     }
+    this.weatherLoading = false;
   }
 
   private get weatherCardData(): IWeatherCardData | null {
