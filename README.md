@@ -23,6 +23,8 @@ If you click `More` button on the current weather info card you will be redirect
 - [x] Move current weather data to store
 - [x] Fetch forecast weather data
 - [x] Display forecast weather data
+- [ ] Fix page overflow on mobile view
+- [ ] Show preloader while fetching data
 - [ ] Write some more unit tests
 - [ ] Map api responses to objects to separate views from services
 
